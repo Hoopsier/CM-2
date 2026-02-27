@@ -1,4 +1,4 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import logo from '../assets/images/logo.png';
 import { useAuth } from '../context/AuthContext';
 
@@ -9,7 +9,7 @@ const Navbar = () => {
       : 'text-white hover:bg-gray-900 hover:text-white rounded-md px-3 py-2';
 
     const { isAuthenticated, logout } = useAuth();
-const navigate = useNavigate();
+    const navigate = useNavigate();
 
 const buttonClass =
   'text-white hover:bg-gray-900 hover:text-white rounded-md px-3 py-2';
