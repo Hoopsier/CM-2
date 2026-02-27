@@ -14,7 +14,7 @@ import EditJobPage from './pages/EditJobPage';
 import SignupPage from "./pages/SignupPage";
 import Login from "./pages/Login.jsx";
 import { useState } from 'react';
-
+import ProtectedRoute from './components/ProtectedRoute';
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(
@@ -57,10 +57,21 @@ const App = () => {
       <Route path='/' element={<MainLayout />}>
         <Route index element={<HomePage />} />
         <Route path='/jobs' element={<JobsPage />} />
-        <Route path='/add-job' element={<AddJobPage addJobSubmit={addJob} />} />
         <Route
-          path='/edit-job/:id'
-          element={<EditJobPage updateJobSubmit={updateJob} />}
+          path="/add-job"
+          element={
+            <ProtectedRoute isAuthenticated={isAuthenticated}>
+              <AddJobPage addJobSubmit={addJob} />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/edit-job/:id"
+          element={
+            <ProtectedRoute isAuthenticated={isAuthenticated}>
+              <EditJobPage updateJobSubmit={updateJob} />
+            </ProtectedRoute>
+          }
           loader={jobLoader}
         />
         <Route

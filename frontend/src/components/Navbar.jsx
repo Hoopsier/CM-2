@@ -1,11 +1,23 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import logo from '../assets/images/logo.png';
+import { useAuth } from '../context/AuthContext';
 
 const Navbar = () => {
   const linkClass = ({ isActive }) =>
     isActive
       ? 'bg-black text-white hover:bg-gray-900 hover:text-white rounded-md px-3 py-2'
       : 'text-white hover:bg-gray-900 hover:text-white rounded-md px-3 py-2';
+
+    const { isAuthenticated, logout } = useAuth();
+    const navigate = useNavigate();
+
+const buttonClass =
+  'text-white hover:bg-gray-900 hover:text-white rounded-md px-3 py-2';
+
+const handleLogout = () => {
+  logout();
+  navigate('/');
+};
 
   return (
     <nav className='bg-indigo-700 border-b border-indigo-500'>
@@ -20,21 +32,22 @@ const Navbar = () => {
             </NavLink>
             <div className='md:ml-auto'>
               <div className='flex space-x-2'>
-                <NavLink to='/' className={linkClass}>
-                  Home
-                </NavLink>
-                <NavLink to='/jobs' className={linkClass}>
-                  Jobs
-                </NavLink>
-                <NavLink to='/add-job' className={linkClass}>
-                  Add Job
-                </NavLink>
-                <NavLink to="/signup" className={linkClass}>
-                  Sign Up
-                </NavLink>
-                <NavLink to="/login" className={linkClass}>
-                  Login
-                </NavLink>
+              <NavLink to='/' className={linkClass}>Home</NavLink>
+              <NavLink to='/jobs' className={linkClass}>Jobs</NavLink>
+
+              {isAuthenticated ? (
+                <>
+                  <NavLink to='/add-job' className={linkClass}>Add Job</NavLink>
+                  <button type='button' onClick={handleLogout} className={buttonClass}>
+                    Logout
+                  </button>
+                </>
+              ) : (
+                <>
+                  <NavLink to='/signup' className={linkClass}>Sign Up</NavLink>
+                  <NavLink to='/login' className={linkClass}>Log In</NavLink>
+                </>
+              )}
               </div>
             </div>
           </div>
