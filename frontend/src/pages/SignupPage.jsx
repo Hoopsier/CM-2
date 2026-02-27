@@ -15,3 +15,26 @@ const SignupPage = () => {
   const [zipCode, setZipCode] = useState("");
 
   const navigate = useNavigate();
+
+  const submitForm = (e) => {
+    e.preventDefault();
+
+    const newUser = {
+      name,
+      email,
+      password,
+      phone_number: phoneNumber,
+      gender,
+      address: { street, city, zipCode },
+    };
+
+    console.log("Signup payload:", newUser);
+    toast.info("Signup UI listo. Integración con backend en la siguiente iteración.");
+    navigate("/login");
+  };
+
+return (
+
+  };
+
+export default SignupPage;
