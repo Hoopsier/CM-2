@@ -5,6 +5,7 @@ import Spinner from './Spinner';
 const JobListings = ({ isHome = false }) => {
   const [jobs, setJobs] = useState([]);
   const [loading, setLoading] = useState(true);
+  let jobLen = 0;
 
   useEffect(() => {
     const fetchJobs = async () => {
@@ -14,6 +15,7 @@ const JobListings = ({ isHome = false }) => {
         const res = await fetch(apiUrl);
         const data = await res.json();
         setJobs(data);
+        jobLen= jobs.length
       } catch (error) {
         console.log('Error fetching data', error);
       } finally {
@@ -38,6 +40,14 @@ const JobListings = ({ isHome = false }) => {
             No jobs available at the moment.
           </p>
         ) : (
+      jobLen === 0 ? (
+            <p>No jobs available at the moment.</p>) : (
+            <div className='grid grid-cols-1 md:grid-cols-3 gap-6'>
+              {jobs.map((job) => (
+                <JobListing key={job.id} job={job} />
+              ))}
+            </div>
+          )
           <div className='grid grid-cols-1 md:grid-cols-3 gap-6'>
             {jobs.map((job) => (
               <JobListing key={job.id} job={job} />
