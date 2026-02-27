@@ -12,9 +12,14 @@ import JobPage, { jobLoader } from './pages/JobPage';
 import AddJobPage from './pages/AddJobPage';
 import EditJobPage from './pages/EditJobPage';
 import SignupPage from "./pages/SignupPage";
+import Login from "./pages/Login.jsx";
+import { useState } from 'react';
 
 
 const App = () => {
+  const [isAuthenticated, setIsAuthenticated] = useState(
+    JSON.parse(sessionStorage.getItem("user")) || false
+  );
   // Add New Job
   const addJob = async (newJob) => {
     const res = await fetch('/api/jobs', {
@@ -64,7 +69,8 @@ const App = () => {
           loader={jobLoader}
         />
         <Route path='*' element={<NotFoundPage />} />
-        <Route path="/signup" element={<SignupPage />} />
+        <Route path="/signup" element={<SignupPage setIsAuthenticated={setIsAuthenticated} />} />
+        <Route path="/login" element={<Login setIsAuthenticated={setIsAuthenticated} />} />
       </Route>
     )
   );
